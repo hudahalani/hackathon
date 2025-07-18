@@ -72,33 +72,32 @@ export const SpeechInterface: React.FC = () => {
 
   const startListening = () => {
     setSpeechError('');
+    setTranscript('');
+    setResponse('');
+    
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
       const recognition = new SpeechRecognition();
       
-      recognition.continuous = true;
-      recognition.interimResults = true;
+      // Improved configuration for better recognition
+      recognition.continuous = false; // Changed to false for better results
+      recognition.interimResults = false; // Changed to false to avoid partial results
       recognition.lang = 'en-US';
+      recognition.maxAlternatives = 1;
       
       recognition.onstart = () => {
         setIsListening(true);
         setTranscript('');
+        setSpeechError('');
       };
       
-      recognition.onresult = (event) => {
-        let finalTranscript = '';
-        for (let i = event.resultIndex; i < event.results.length; i++) {
-          if (event.results[i].isFinal) {
-            finalTranscript += event.results[i][0].transcript;
-          }
-        }
-        if (finalTranscript) {
-          setTranscript(finalTranscript);
-          processCommand(finalTranscript);
-        }
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        setTranscript(transcript);
+        processCommand(transcript);
       };
       
-      recognition.onerror = (event) => {
+      recognition.onerror = (event: any) => {
         let errorMessage = '';
         switch (event.error) {
           case 'not-allowed':
@@ -116,6 +115,9 @@ export const SpeechInterface: React.FC = () => {
           case 'audio-capture':
             errorMessage = 'Audio capture failed. Please check your microphone and try again.';
             break;
+          case 'service-not-allowed':
+            errorMessage = 'Speech recognition service not allowed. Please check your browser settings.';
+            break;
           default:
             errorMessage = `Speech recognition error: ${event.error}. Please try again.`;
         }
@@ -127,15 +129,16 @@ export const SpeechInterface: React.FC = () => {
         setIsListening(false);
       };
       
-      recognition.start();
+      try {
+        recognition.start();
+      } catch (error) {
+        setSpeechError('Failed to start speech recognition. Please try again.');
+        setIsListening(false);
+      }
     } else {
       // Fallback for browsers without speech recognition
-      setIsListening(true);
-      setTimeout(() => {
-        setTranscript("Tell me about chest compression");
-        processCommand("chest compression");
-        setIsListening(false);
-      }, 2000);
+      setSpeechError('Speech recognition is not supported in this browser. Please use Chrome, Edge, or Safari.');
+      setIsListening(false);
     }
   };
 
@@ -145,15 +148,23 @@ export const SpeechInterface: React.FC = () => {
 
   const processCommand = (command: string) => {
     setIsProcessing(true);
-    const lowerCommand = command.toLowerCase();
+    const lowerCommand = command.toLowerCase().trim();
     
-    // Find matching command
-    const matchedCommand = medicalCommands.find(cmd => 
-      lowerCommand.includes(cmd.command.toLowerCase()) ||
-      cmd.command.toLowerCase().includes(lowerCommand)
-    );
+    console.log('Processing command:', lowerCommand); // Debug log
+    
+    // Find matching command with improved matching
+    const matchedCommand = medicalCommands.find(cmd => {
+      const cmdLower = cmd.command.toLowerCase();
+      const keywords = cmdLower.split(' ');
+      
+      // Check if command contains any of the keywords
+      return keywords.some(keyword => lowerCommand.includes(keyword)) ||
+             lowerCommand.includes(cmdLower) ||
+             cmdLower.includes(lowerCommand);
+    });
     
     if (matchedCommand) {
+      console.log('Matched command:', matchedCommand.command); // Debug log
       setResponse(matchedCommand.response);
       setCommandHistory(prev => [matchedCommand, ...prev.slice(0, 4)]);
       
@@ -161,7 +172,8 @@ export const SpeechInterface: React.FC = () => {
         speakResponse(matchedCommand.response);
       }
     } else {
-      const defaultResponse = "I didn't understand that command. Please try asking about chest compressions, blood pressure, wound assessment, medications, or emergency protocols.";
+      console.log('No match found for:', lowerCommand); // Debug log
+      const defaultResponse = "I didn't understand that command. Please try saying: 'chest compression', 'blood pressure', 'wound assessment', 'medication dosage', or 'emergency protocol'.";
       setResponse(defaultResponse);
       
       if (voiceEnabled) {
@@ -247,11 +259,14 @@ export const SpeechInterface: React.FC = () => {
 
             {/* Main Voice Interface */}
             <div className="text-center mb-6">
-              <div className={`w-32 h-32 mx-auto rounded-full flex items-center justify-center mb-4 ${
-                isListening ? 'bg-red-100 animate-pulse' : 'bg-gray-100'
+              <div className={`w-32 h-32 mx-auto rounded-full flex items-center justify-center mb-4 transition-all duration-300 ${
+                isListening ? 'bg-red-100 animate-pulse shadow-lg' : 'bg-gray-100'
               }`}>
                 {isListening ? (
-                  <MicOff size={48} className="text-red-600" />
+                  <div className="text-center">
+                    <MicOff size={48} className="text-red-600 mb-2" />
+                    <div className="text-sm text-red-600 font-medium">Listening...</div>
+                  </div>
                 ) : (
                   <Mic size={48} className="text-gray-600" />
                 )}

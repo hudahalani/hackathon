@@ -73,31 +73,66 @@ export const MedicalChatbot: React.FC = () => {
       }
     }
 
-    // Check for related terms
-    if (lowerInput.includes('pain') || lowerInput.includes('hurt')) {
+    // Check for specific medical terms and procedures
+    if (lowerInput.includes('chest pain') || lowerInput.includes('heart attack') || lowerInput.includes('angina')) {
       return {
-        response: "For pain assessment, use the PQRST method:\n\n**P** - Provocation/Palliation\n**Q** - Quality\n**R** - Region/Radiation\n**S** - Severity (1-10 scale)\n**T** - Timing\n\nConsider underlying causes and appropriate pain management protocols. Document thoroughly for continuity of care.",
+        response: "**Chest Pain Assessment Protocol:**\n\n**Immediate Actions:**\n1. Assess ABCs (Airway, Breathing, Circulation)\n2. Administer oxygen if needed\n3. Obtain 12-lead ECG within 10 minutes\n4. Establish IV access\n\n**Assessment (PQRST):**\n- **P**rovocation: What makes it worse/better?\n- **Q**uality: Crushing, pressure, sharp?\n- **R**adiation: To arm, jaw, back?\n- **S**everity: 1-10 scale\n- **T**iming: When did it start?\n\n**Red Flags:**\n- ST elevation on ECG\n- Hemodynamic instability\n- Severe, crushing pain\n\n**Treatment:**\n- Aspirin 325mg chewed\n- Nitroglycerin if prescribed\n- Morphine for severe pain\n- Activate cardiac catheterization team if STEMI",
+        type: 'warning'
+      };
+    }
+
+    if (lowerInput.includes('wound') || lowerInput.includes('cut') || lowerInput.includes('laceration')) {
+      return {
+        response: "**Wound Care Protocol:**\n\n**Assessment:**\n- Size, depth, location\n- Signs of infection (redness, warmth, pus)\n- Tetanus status\n- Neurovascular status\n\n**Cleaning:**\n- Irrigate with normal saline\n- Remove debris gently\n- Don't use hydrogen peroxide on wounds\n- Consider antiseptic for dirty wounds\n\n**Closure:**\n- Primary closure for clean wounds <6 hours\n- Delayed closure for dirty wounds\n- Consider antibiotics for high-risk wounds\n\n**Dressing:**\n- Keep clean and dry\n- Change as needed\n- Monitor for infection signs\n\n**Follow-up:**\n- Tetanus booster if needed\n- Return if signs of infection",
         type: 'info'
       };
     }
 
-    if (lowerInput.includes('medication') || lowerInput.includes('dosage')) {
+    if (lowerInput.includes('fever') || lowerInput.includes('temperature')) {
       return {
-        response: "For medication administration:\n\n1. **Five Rights:**\n   - Right patient\n   - Right drug\n   - Right dose\n   - Right route\n   - Right time\n\n2. **Documentation:**\n   - Record all medications given\n   - Note patient response\n   - Report adverse reactions\n\n3. **Special considerations:**\n   - Pediatric dosing calculations\n   - Renal/hepatic adjustments\n   - Allergies and contraindications\n\n**Always verify with pharmacist if unsure.**",
+        response: "**Fever Management Protocol:**\n\n**Assessment:**\n- Temperature measurement method\n- Associated symptoms\n- Duration of fever\n- Recent travel/exposure\n\n**Temperature Ranges:**\n- Normal: 36.5-37.5°C (97.7-99.5°F)\n- Low-grade: 37.5-38.3°C (99.5-100.9°F)\n- Moderate: 38.3-39.4°C (100.9-102.9°F)\n- High: >39.4°C (>102.9°F)\n\n**Treatment:**\n- Acetaminophen 500-1000mg q4-6h\n- Ibuprofen 400-800mg q6-8h\n- Cool compresses\n- Hydration\n\n**Red Flags:**\n- Fever >40°C (104°F)\n- Altered mental status\n- Neck stiffness\n- Petechial rash\n- Immunocompromised patient\n\n**Investigation:**\n- Blood cultures if >38.5°C\n- CBC, CRP\n- Consider imaging if focal symptoms",
+        type: 'info'
+      };
+    }
+
+    if (lowerInput.includes('pain') || lowerInput.includes('hurt')) {
+      return {
+        response: "**Pain Assessment Protocol:**\n\n**PQRST Method:**\n- **P**rovocation/Palliation: What makes it worse/better?\n- **Q**uality: Sharp, dull, throbbing, burning?\n- **R**egion/Radiation: Where is it? Does it spread?\n- **S**everity: Rate 1-10\n- **T**iming: When did it start? Constant/intermittent?\n\n**Pain Scales:**\n- Numeric: 0-10\n- Visual Analog Scale\n- Wong-Baker FACES (pediatric)\n\n**Treatment Options:**\n- Non-pharmacologic: Positioning, ice/heat, distraction\n- Pharmacologic: Acetaminophen, NSAIDs, opioids\n- Consider underlying cause\n\n**Documentation:**\n- Location, intensity, quality\n- Response to treatment\n- Functional impact\n- Reassessment frequency",
+        type: 'info'
+      };
+    }
+
+    if (lowerInput.includes('medication') || lowerInput.includes('dosage') || lowerInput.includes('drug')) {
+      return {
+        response: "**Medication Administration Protocol:**\n\n**Five Rights:**\n1. Right patient\n2. Right drug\n3. Right dose\n4. Right route\n5. Right time\n\n**Safety Checks:**\n- Verify allergies\n- Check drug interactions\n- Confirm renal/hepatic function\n- Pediatric dosing calculations\n\n**Documentation:**\n- Time given\n- Dose administered\n- Patient response\n- Any adverse reactions\n\n**Special Considerations:**\n- Crushing/opening medications\n- IV compatibility\n- Storage requirements\n- Expiration dates\n\n**Emergency:**\n- Know reversal agents\n- Have emergency equipment ready\n- Monitor for reactions",
         type: 'warning'
       };
     }
 
-    if (lowerInput.includes('infection') || lowerInput.includes('sepsis')) {
+    if (lowerInput.includes('infection') || lowerInput.includes('sepsis') || lowerInput.includes('bacteria')) {
       return {
-        response: "**Infection Control & Sepsis Protocol:**\n\n**Early Recognition:**\n- Fever, chills, altered mental status\n- Increased heart rate, respiratory rate\n- Decreased blood pressure\n\n**Sepsis Bundle (1-hour):**\n1. Measure lactate\n2. Obtain blood cultures\n3. Administer broad-spectrum antibiotics\n4. Begin fluid resuscitation\n\n**Infection Prevention:**\n- Hand hygiene\n- Personal protective equipment\n- Isolation procedures\n- Environmental cleaning\n\n**Escalation:** Contact infectious disease specialist for severe cases.",
+        response: "**Infection Control & Sepsis Protocol:**\n\n**Early Recognition (Sepsis):**\n- Fever >38°C or <36°C\n- Heart rate >90/min\n- Respiratory rate >20/min\n- Altered mental status\n- Systolic BP <90mmHg\n\n**Sepsis Bundle (1-hour):**\n1. Measure lactate\n2. Obtain blood cultures\n3. Administer broad-spectrum antibiotics\n4. Begin fluid resuscitation (30ml/kg)\n5. Vasopressors if needed\n\n**Infection Prevention:**\n- Hand hygiene (alcohol-based or soap/water)\n- Personal protective equipment\n- Isolation procedures\n- Environmental cleaning\n- Sterile technique\n\n**Antibiotic Stewardship:**\n- Culture before antibiotics\n- Narrow spectrum when possible\n- Review duration of therapy\n- Monitor for resistance",
         type: 'warning'
       };
     }
 
-    // Default response
+    if (lowerInput.includes('cpr') || lowerInput.includes('cardiac arrest') || lowerInput.includes('resuscitation')) {
+      return {
+        response: "**CPR Protocol (Adult):**\n\n**Immediate Actions:**\n1. Check responsiveness\n2. Call for help/activate emergency response\n3. Check breathing and pulse simultaneously\n4. Begin compressions if no pulse\n\n**Compression Technique:**\n- Rate: 100-120 compressions/minute\n- Depth: 2-2.4 inches (5-6 cm)\n- Allow full chest recoil\n- Minimize interruptions\n\n**Ventilation:**\n- 30:2 compression-to-ventilation ratio\n- Use barrier device if available\n- Each breath over 1 second\n- Visible chest rise\n\n**AED Use:**\n- Apply as soon as available\n- Follow voice prompts\n- Resume compressions immediately after shock\n\n**Team Coordination:**\n- Rotate compressors every 2 minutes\n- Monitor quality of compressions\n- Prepare for advanced life support",
+        type: 'warning'
+      };
+    }
+
+    if (lowerInput.includes('blood pressure') || lowerInput.includes('hypertension') || lowerInput.includes('bp')) {
+      return {
+        response: "**Blood Pressure Measurement Protocol:**\n\n**Equipment:**\n- Properly sized cuff\n- Calibrated sphygmomanometer\n- Stethoscope\n\n**Technique:**\n1. Patient seated, arm supported\n2. Cuff 1-2 inches above elbow\n3. Inflate 20-30 mmHg above expected systolic\n4. Deflate slowly (2-3 mmHg/second)\n5. Note first sound (systolic) and last sound (diastolic)\n\n**Normal Ranges:**\n- Normal: <120/<80 mmHg\n- Elevated: 120-129/<80 mmHg\n- Stage 1: 130-139/80-89 mmHg\n- Stage 2: ≥140/≥90 mmHg\n\n**Hypertensive Crisis:**\n- Systolic >180 or diastolic >120\n- Check for end-organ damage\n- Consider immediate treatment\n\n**Documentation:**\n- Position, arm used\n- Multiple readings if needed\n- Associated symptoms",
+        type: 'info'
+      };
+    }
+
+    // Default response with more helpful suggestions
     return {
-      response: "I can help with:\n\n• Clinical protocols and procedures\n• Drug interactions and dosing\n• Emergency response guidelines\n• Humanitarian medical standards\n• Infection control measures\n• Patient assessment techniques\n\nCould you be more specific about what you need help with?",
+      response: "I can help with specific medical topics. Try asking about:\n\n**Common Procedures:**\n• Chest pain assessment\n• Wound care\n• CPR protocol\n• Blood pressure measurement\n\n**Patient Care:**\n• Pain management\n• Fever treatment\n• Medication administration\n• Infection control\n\n**Emergency Situations:**\n• Cardiac arrest\n• Sepsis recognition\n• Trauma assessment\n• Allergic reactions\n\nPlease ask a specific question about any of these topics!",
       type: 'info'
     };
   };
@@ -105,9 +140,10 @@ export const MedicalChatbot: React.FC = () => {
   const handleSendMessage = async () => {
     if (!inputText.trim()) return;
 
+    const currentInput = inputText.trim();
     const userMessage: Message = {
-      id: messages.length + 1,
-      text: inputText,
+      id: Date.now(),
+      text: currentInput,
       sender: 'user',
       timestamp: new Date()
     };
@@ -118,9 +154,9 @@ export const MedicalChatbot: React.FC = () => {
 
     // Simulate processing delay
     setTimeout(() => {
-      const { response, type } = generateResponse(inputText);
+      const { response, type } = generateResponse(currentInput);
       const botMessage: Message = {
-        id: messages.length + 2,
+        id: Date.now() + 1,
         text: response,
         sender: 'bot',
         timestamp: new Date(),
@@ -133,8 +169,30 @@ export const MedicalChatbot: React.FC = () => {
   };
 
   const handleQuickAction = (query: string) => {
-    setInputText(query);
-    handleSendMessage();
+    const userMessage: Message = {
+      id: Date.now(),
+      text: query,
+      sender: 'user',
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setIsTyping(true);
+
+    // Simulate processing delay
+    setTimeout(() => {
+      const { response, type } = generateResponse(query);
+      const botMessage: Message = {
+        id: Date.now() + 1,
+        text: response,
+        sender: 'bot',
+        timestamp: new Date(),
+        type
+      };
+
+      setMessages(prev => [...prev, botMessage]);
+      setIsTyping(false);
+    }, 1500);
   };
 
   const toggleListening = () => {
