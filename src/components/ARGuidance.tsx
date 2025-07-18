@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Camera, Video, Square, Play, Pause, RotateCcw } from 'lucide-react';
+import { Camera, Video, Square, Play, Pause, RotateCcw, Search } from 'lucide-react';
 
 interface ARGuidanceProps {}
 
@@ -8,8 +8,13 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
   const [isPaused, setIsPaused] = useState(false);
   const [stream, setStream] = useState<MediaStream | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [detectedCondition, setDetectedCondition] = useState<string | null>(null);
+  const [analysisResult, setAnalysisResult] = useState<string | null>(null);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const analysisIntervalRef = useRef<number | null>(null);
 
   const startRecording = async () => {
     try {
@@ -32,6 +37,7 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
       
       setIsRecording(true);
       setIsPaused(false);
+      startAnalysis(); // Start automatic analysis when recording begins
     } catch (err) {
       console.error('Error accessing camera:', err);
       setError('Unable to access camera. Please check permissions and try again.');
@@ -50,6 +56,7 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
     
     setIsRecording(false);
     setIsPaused(false);
+    stopAnalysis(); // Stop analysis when recording stops
   };
 
   const togglePause = () => {
@@ -70,11 +77,138 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
     }, 100);
   };
 
+  // Image analysis function
+  const analyzeImage = () => {
+    if (!videoRef.current || !canvasRef.current) return;
+
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+
+    if (!ctx) return;
+
+    // Set canvas size to match video
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    // Draw current video frame to canvas
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Get image data for analysis
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+
+    // Simple color analysis for medical conditions
+    const analysis = performMedicalAnalysis(data, canvas.width, canvas.height);
+    
+    if (analysis.condition) {
+      setDetectedCondition(analysis.condition);
+      setAnalysisResult(analysis.treatment);
+      speakAnalysis(analysis.condition, analysis.treatment);
+    }
+  };
+
+  // Perform basic medical condition analysis
+  const performMedicalAnalysis = (imageData: Uint8ClampedArray, width: number, height: number) => {
+    let redPixels = 0;
+    let darkPixels = 0;
+    let totalPixels = width * height;
+
+    // Analyze pixel colors
+    for (let i = 0; i < imageData.length; i += 4) {
+      const r = imageData[i];
+      const g = imageData[i + 1];
+      const b = imageData[i + 2];
+      
+      // Count red pixels (potential inflammation/infection)
+      if (r > g * 1.5 && r > b * 1.5) {
+        redPixels++;
+      }
+      
+      // Count dark pixels (potential bruising/necrosis)
+      if (r < 100 && g < 100 && b < 100) {
+        darkPixels++;
+      }
+    }
+
+    const redPercentage = (redPixels / totalPixels) * 100;
+    const darkPercentage = (darkPixels / totalPixels) * 100;
+
+    // Determine condition based on color analysis
+    if (redPercentage > 15) {
+      return {
+        condition: 'Inflammation or Infection',
+        treatment: 'Detected signs of inflammation or infection. Clean the area with sterile saline. Apply appropriate dressing. Monitor for worsening symptoms. Consider antibiotics if infection suspected. Seek medical attention if redness spreads or fever develops.'
+      };
+    } else if (darkPercentage > 20) {
+      return {
+        condition: 'Bruising or Tissue Damage',
+        treatment: 'Detected potential bruising or tissue damage. Apply ice for first 24-48 hours to reduce swelling. Elevate the area if possible. Monitor for signs of compartment syndrome. Seek medical attention if severe pain or numbness develops.'
+      };
+    } else {
+      return {
+        condition: null,
+        treatment: null
+      };
+    }
+  };
+
+  // Voice feedback function
+  const speakAnalysis = (condition: string, treatment: string) => {
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(
+        `Detected ${condition}. ${treatment}`
+      );
+      utterance.rate = 0.8;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      
+      speechSynthesis.speak(utterance);
+    }
+  };
+
+  // Start continuous analysis
+  const startAnalysis = () => {
+    if (analysisIntervalRef.current) {
+      clearInterval(analysisIntervalRef.current);
+    }
+    
+    analysisIntervalRef.current = window.setInterval(() => {
+      if (isRecording && !isPaused) {
+        setIsAnalyzing(true);
+        analyzeImage();
+        setTimeout(() => setIsAnalyzing(false), 1000);
+      }
+    }, 3000); // Analyze every 3 seconds
+  };
+
+  // Stop analysis
+  const stopAnalysis = () => {
+    if (analysisIntervalRef.current) {
+      clearInterval(analysisIntervalRef.current);
+      analysisIntervalRef.current = null;
+    }
+  };
+
+  // Clear detected condition
+  const clearDetection = () => {
+    setDetectedCondition(null);
+    setAnalysisResult(null);
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
+      setIsSpeaking(false);
+    }
+  };
+
   useEffect(() => {
     return () => {
       if (stream) {
         stream.getTracks().forEach((track: MediaStreamTrack) => track.stop());
       }
+      stopAnalysis();
     };
   }, [stream]);
 
@@ -137,6 +271,11 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
                   playsInline
                   muted
                 />
+                <canvas
+                  ref={canvasRef}
+                  className="hidden"
+                  style={{ display: 'none' }}
+                />
                 
                 {!isRecording && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50">
@@ -164,6 +303,40 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
                     <p className="text-sm">{procedures.find(p => p.id === selectedProcedure)?.title}</p>
                   </div>
                 )}
+
+                {/* Analysis Status */}
+                {isAnalyzing && (
+                  <div className="absolute top-4 right-4 bg-blue-600 bg-opacity-90 text-white p-3 rounded-lg">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                      <span className="text-sm font-medium">Analyzing...</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Detected Condition */}
+                {detectedCondition && (
+                  <div className="absolute bottom-4 left-4 right-4 bg-red-600 bg-opacity-90 text-white p-4 rounded-lg">
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <h3 className="font-semibold mb-2">⚠️ Detected: {detectedCondition}</h3>
+                        <p className="text-sm">{analysisResult}</p>
+                        {isSpeaking && (
+                          <div className="flex items-center mt-2">
+                            <div className="w-2 h-2 bg-white rounded-full animate-pulse mr-2"></div>
+                            <span className="text-xs">Speaking treatment guidance...</span>
+                          </div>
+                        )}
+                      </div>
+                      <button
+                        onClick={clearDetection}
+                        className="ml-4 p-1 bg-white bg-opacity-20 rounded hover:bg-opacity-30 transition-colors"
+                      >
+                        <Square size={16} />
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Camera Controls */}
@@ -188,6 +361,15 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
                       </button>
                       
                       <button
+                        onClick={analyzeImage}
+                        disabled={isAnalyzing}
+                        className="flex items-center space-x-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
+                      >
+                        <Search size={16} />
+                        <span>{isAnalyzing ? 'Analyzing...' : 'Analyze Now'}</span>
+                      </button>
+                      
+                      <button
                         onClick={resetCamera}
                         className="flex items-center space-x-2 bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors"
                       >
@@ -205,6 +387,15 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
                     </>
                   )}
                 </div>
+                
+                {/* Analysis Info */}
+                {isRecording && (
+                  <div className="mt-4 p-3 bg-blue-50 rounded-lg">
+                    <p className="text-sm text-blue-800 text-center">
+                      🔍 Camera will automatically analyze for medical conditions every 3 seconds
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
