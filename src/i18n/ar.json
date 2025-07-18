@@ -1,0 +1,19 @@
+{
+  "dashboard": "لوحة التحكم",
+  "diagnostics": "التشخيصات",
+  "ar_guide": "الإرشاد بالواقع المعزز",
+  "chatbot": "المساعد",
+  "speech": "الصوت",
+  "emergency": "الطوارئ",
+  "welcome": "منصة التدريب الطبي",
+  "dashboard_desc": "تدريب شامل مدعوم بالذكاء الاصطناعي للكوادر الطبية الإنسانية",
+  "start_recording": "بدء التسجيل",
+  "stop": "إيقاف",
+  "pause": "إيقاف مؤقت",
+  "resume": "استئناف",
+  "analyzing": "جارٍ التحليل...",
+  "detected": "تم الكشف",
+  "treatment": "العلاج",
+  "english": "English",
+  "arabic": "العربية"
+} 

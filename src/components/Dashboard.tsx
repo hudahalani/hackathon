@@ -10,6 +10,7 @@ import {
   Activity,
   Clock
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 type ActiveModule = 'dashboard' | 'diagnostics' | 'ar-guidance' | 'chatbot' | 'speech' | 'emergency';
 
@@ -18,6 +19,7 @@ interface DashboardProps {
 }
 
 export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
+  const { t } = useTranslation();
   const modules = [
     {
       id: 'diagnostics' as const,
@@ -76,8 +78,8 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">Medical Training Platform</h2>
-        <p className="text-gray-600">Comprehensive AI-powered training for humanitarian medical staff</p>
+        <h2 className="text-3xl font-bold text-gray-900 mb-2">{t('welcome')}</h2>
+        <p className="text-gray-600">{t('dashboard_desc')}</p>
       </div>
 
       {/* Quick Stats */}

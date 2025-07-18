@@ -1,0 +1,19 @@
+{
+  "dashboard": "Dashboard",
+  "diagnostics": "Diagnostics",
+  "ar_guide": "AR Guide",
+  "chatbot": "Assistant",
+  "speech": "Voice",
+  "emergency": "Emergency",
+  "welcome": "Medical Training Platform",
+  "dashboard_desc": "Comprehensive AI-powered training for humanitarian medical staff",
+  "start_recording": "Start Recording",
+  "stop": "Stop",
+  "pause": "Pause",
+  "resume": "Resume",
+  "analyzing": "Analyzing...",
+  "detected": "Detected",
+  "treatment": "Treatment",
+  "english": "English",
+  "arabic": "العربية"
+} 

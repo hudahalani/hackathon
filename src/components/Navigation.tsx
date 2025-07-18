@@ -9,6 +9,7 @@ import {
   Wifi,
   WifiOff
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 type ActiveModule = 'dashboard' | 'diagnostics' | 'ar-guidance' | 'chatbot' | 'speech' | 'emergency';
 
@@ -25,13 +26,14 @@ export const Navigation: React.FC<NavigationProps> = ({
   isOfflineMode,
   onOfflineModeToggle
 }) => {
+  const { t, i18n } = useTranslation();
   const navItems = [
-    { id: 'dashboard' as const, label: 'Dashboard', icon: Home },
-    { id: 'diagnostics' as const, label: 'Diagnostics', icon: Camera },
-    { id: 'ar-guidance' as const, label: 'AR Guide', icon: Smartphone },
-    { id: 'chatbot' as const, label: 'Assistant', icon: MessageCircle },
-    { id: 'speech' as const, label: 'Voice', icon: Mic },
-    { id: 'emergency' as const, label: 'Emergency', icon: AlertTriangle },
+    { id: 'dashboard' as const, label: t('dashboard'), icon: Home },
+    { id: 'diagnostics' as const, label: t('diagnostics'), icon: Camera },
+    { id: 'ar-guidance' as const, label: t('ar_guide'), icon: Smartphone },
+    { id: 'chatbot' as const, label: t('chatbot'), icon: MessageCircle },
+    { id: 'speech' as const, label: t('speech'), icon: Mic },
+    { id: 'emergency' as const, label: t('emergency'), icon: AlertTriangle },
   ];
 
   return (
@@ -64,19 +66,27 @@ export const Navigation: React.FC<NavigationProps> = ({
             ))}
           </div>
 
-          <button
-            onClick={onOfflineModeToggle}
-            className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-              isOfflineMode 
-                ? 'bg-orange-100 text-orange-700' 
-                : 'bg-green-100 text-green-700'
-            }`}
-          >
-            {isOfflineMode ? <WifiOff size={16} /> : <Wifi size={16} />}
-            <span className="hidden sm:inline">
-              {isOfflineMode ? 'Offline' : 'Online'}
-            </span>
-          </button>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={onOfflineModeToggle}
+              className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                isOfflineMode 
+                  ? 'bg-orange-100 text-orange-700' 
+                  : 'bg-green-100 text-green-700'
+              }`}
+            >
+              {isOfflineMode ? <WifiOff size={16} /> : <Wifi size={16} />}
+              <span className="hidden sm:inline">
+                {isOfflineMode ? 'Offline' : 'Online'}
+              </span>
+            </button>
+            <button
+              onClick={() => i18n.changeLanguage(i18n.language === 'ar' ? 'en' : 'ar')}
+              className="px-3 py-1 rounded text-sm font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+            >
+              {i18n.language === 'ar' ? 'English' : 'العربية'}
+            </button>
+          </div>
         </div>
       </div>
     </nav>
