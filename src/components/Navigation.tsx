@@ -41,7 +41,7 @@ export const Navigation: React.FC<NavigationProps> = ({
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-green-700 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-sm">HMT</span>
             </div>
             <h1 className="text-xl font-bold text-gray-900">Medical Training</h1>
@@ -56,7 +56,7 @@ export const Navigation: React.FC<NavigationProps> = ({
                   activeModule === id
                     ? id === 'emergency' 
                       ? 'bg-red-100 text-red-700'
-                      : 'bg-blue-100 text-blue-700'
+                      : 'bg-green-100 text-green-700'
                     : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 }`}
               >
@@ -82,7 +82,7 @@ export const Navigation: React.FC<NavigationProps> = ({
             </button>
             <button
               onClick={() => i18n.changeLanguage(i18n.language === 'ar' ? 'en' : 'ar')}
-              className="px-3 py-1 rounded text-sm font-medium bg-blue-100 text-blue-800 hover:bg-blue-200 transition-colors"
+              className="px-3 py-1 rounded text-sm font-medium bg-green-100 text-green-800 hover:bg-green-200 transition-colors"
             >
               {i18n.language === 'ar' ? 'English' : 'العربية'}
             </button>

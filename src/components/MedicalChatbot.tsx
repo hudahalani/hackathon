@@ -44,6 +44,46 @@ export const MedicalChatbot: React.FC = () => {
     'humanitarian guidelines': {
       response: "**Humanitarian Medical Guidelines:**\n\n**Core Principles:**\n- Humanity: Alleviate suffering\n- Neutrality: No sides in conflicts\n- Impartiality: Based on need alone\n- Independence: Autonomous action\n\n**Medical Priorities:**\n1. Life-threatening conditions\n2. Preventable diseases\n3. Communicable disease control\n4. Reproductive health\n5. Mental health support\n\n**Resource Management:**\n- Prioritize essential medicines\n- Maintain cold chain for vaccines\n- Ensure safe water and sanitation\n- Document all activities\n\n**Security Protocols:**\n- Daily security briefings\n- Evacuation procedures\n- Communication schedules\n- Personal protective measures",
       type: 'info'
+    },
+    'diabetes': {
+      response: "**Diabetes Management:**\n\n1. Monitor blood glucose regularly.\n2. Administer insulin or oral hypoglycemics as prescribed.\n3. Recognize hypoglycemia (shakiness, sweating, confusion) and treat with fast-acting carbs.\n4. Recognize hyperglycemia (thirst, frequent urination, fatigue) and adjust medication.\n5. Encourage healthy diet, exercise, and regular follow-up.",
+      type: 'info'
+    },
+    'asthma': {
+      response: "**Asthma Attack Protocol:**\n\n1. Assess severity (speech, wheeze, accessory muscle use).\n2. Administer short-acting beta-agonist (inhaler/nebulizer).\n3. Give oxygen if SpO2 <94%.\n4. Consider oral corticosteroids.\n5. Monitor response and repeat inhaler every 20 minutes as needed.\n6. Seek emergency care if no improvement.",
+      type: 'warning'
+    },
+    'stroke': {
+      response: "**Stroke Recognition (FAST):**\n\n- **F**ace: Drooping?\n- **A**rms: Weakness?\n- **S**peech: Slurred?\n- **T**ime: Act fast!\n\n1. Call emergency services immediately.\n2. Note time of symptom onset.\n3. Keep patient NPO (nothing by mouth).\n4. Monitor airway, breathing, circulation.\n5. Prepare for rapid transport to stroke center.",
+      type: 'warning'
+    },
+    'burn': {
+      response: "**Burn Treatment Protocol:**\n\n1. Remove source of burn.\n2. Cool area with running water for 20 minutes.\n3. Cover with clean, non-stick dressing.\n4. Do not apply creams or ice.\n5. Assess depth and size.\n6. Give pain relief.\n7. Refer to hospital if large, deep, or involving face/hands/genitals.",
+      type: 'info'
+    },
+    'allergic reaction': {
+      response: "**Allergic Reaction/Anaphylaxis:**\n\n1. Remove allergen if possible.\n2. Administer epinephrine IM immediately if anaphylaxis.\n3. Call emergency services.\n4. Give oxygen and IV fluids if available.\n5. Monitor airway and breathing.\n6. Give antihistamines and steroids as adjuncts.",
+      type: 'warning'
+    },
+    'dehydration': {
+      response: "**Dehydration Management:**\n\n1. Assess severity (skin turgor, mucous membranes, urine output).\n2. Give oral rehydration solution for mild/moderate cases.\n3. Use IV fluids for severe dehydration or if unable to tolerate oral.\n4. Monitor electrolytes and urine output.\n5. Treat underlying cause (vomiting, diarrhea, fever).",
+      type: 'info'
+    },
+    'fracture': {
+      response: "**Fracture/Splinting Protocol:**\n\n1. Immobilize the limb in the position found.\n2. Apply a splint and padding.\n3. Check circulation, sensation, movement before and after splinting.\n4. Elevate and apply ice.\n5. Refer for X-ray and orthopedic care.\n6. Do not attempt to realign open fractures.",
+      type: 'info'
+    },
+    'pediatric fever': {
+      response: "**Pediatric Fever Management:**\n\n1. Measure temperature accurately.\n2. Look for red flags: lethargy, poor feeding, rash, difficulty breathing.\n3. Give antipyretics (acetaminophen/ibuprofen) as needed.\n4. Encourage fluids.\n5. Seek medical attention if <3 months old or if red flags present.",
+      type: 'info'
+    },
+    'snake bite': {
+      response: "**Snake Bite First Aid:**\n\n1. Keep patient calm and still.\n2. Immobilize bitten limb at heart level.\n3. Remove tight clothing/jewelry.\n4. Do not suck or cut the wound.\n5. Transport to hospital immediately.\n6. Monitor for breathing difficulty and shock.",
+      type: 'warning'
+    },
+    'mental health': {
+      response: "**Mental Health Crisis:**\n\n1. Ensure safety of patient and others.\n2. Listen non-judgmentally.\n3. Do not leave patient alone if suicidal.\n4. Remove dangerous objects.\n5. Contact mental health professionals or emergency services.\n6. Offer support and reassurance.",
+      type: 'info'
     }
   };
 
@@ -128,6 +168,38 @@ export const MedicalChatbot: React.FC = () => {
         response: "**Blood Pressure Measurement Protocol:**\n\n**Equipment:**\n- Properly sized cuff\n- Calibrated sphygmomanometer\n- Stethoscope\n\n**Technique:**\n1. Patient seated, arm supported\n2. Cuff 1-2 inches above elbow\n3. Inflate 20-30 mmHg above expected systolic\n4. Deflate slowly (2-3 mmHg/second)\n5. Note first sound (systolic) and last sound (diastolic)\n\n**Normal Ranges:**\n- Normal: <120/<80 mmHg\n- Elevated: 120-129/<80 mmHg\n- Stage 1: 130-139/80-89 mmHg\n- Stage 2: ≥140/≥90 mmHg\n\n**Hypertensive Crisis:**\n- Systolic >180 or diastolic >120\n- Check for end-organ damage\n- Consider immediate treatment\n\n**Documentation:**\n- Position, arm used\n- Multiple readings if needed\n- Associated symptoms",
         type: 'info'
       };
+    }
+
+    // Add flexible keyword matches for new topics
+    if (lowerInput.includes('diabetes') || lowerInput.includes('sugar')) {
+      return medicalResponses['diabetes'];
+    }
+    if (lowerInput.includes('asthma')) {
+      return medicalResponses['asthma'];
+    }
+    if (lowerInput.includes('stroke') || lowerInput.includes('fast')) {
+      return medicalResponses['stroke'];
+    }
+    if (lowerInput.includes('burn')) {
+      return medicalResponses['burn'];
+    }
+    if (lowerInput.includes('allergy') || lowerInput.includes('anaphylaxis')) {
+      return medicalResponses['allergic reaction'];
+    }
+    if (lowerInput.includes('dehydration') || lowerInput.includes('rehydration')) {
+      return medicalResponses['dehydration'];
+    }
+    if (lowerInput.includes('fracture') || lowerInput.includes('splint')) {
+      return medicalResponses['fracture'];
+    }
+    if (lowerInput.includes('pediatric') || lowerInput.includes('child') && lowerInput.includes('fever')) {
+      return medicalResponses['pediatric fever'];
+    }
+    if (lowerInput.includes('snake')) {
+      return medicalResponses['snake bite'];
+    }
+    if (lowerInput.includes('mental') || lowerInput.includes('suicide') || lowerInput.includes('depression')) {
+      return medicalResponses['mental health'];
     }
 
     // Default response with more helpful suggestions
@@ -242,7 +314,7 @@ export const MedicalChatbot: React.FC = () => {
                 >
                   <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
                     message.sender === 'user' 
-                      ? 'bg-blue-100' 
+                      ? 'bg-green-100' 
                       : message.type === 'warning' 
                       ? 'bg-orange-100' 
                       : message.type === 'success'
@@ -250,7 +322,7 @@ export const MedicalChatbot: React.FC = () => {
                       : 'bg-gray-100'
                   }`}>
                     {message.sender === 'user' ? (
-                      <User className="text-blue-600" size={16} />
+                      <User className="text-green-600" size={16} />
                     ) : (
                       getMessageIcon(message.type)
                     )}
@@ -258,7 +330,7 @@ export const MedicalChatbot: React.FC = () => {
                   <div className={`flex-1 ${message.sender === 'user' ? 'text-right' : ''}`}>
                     <div className={`inline-block p-3 rounded-lg max-w-xs lg:max-w-md ${
                       message.sender === 'user'
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-green-600 text-white'
                         : message.type === 'warning'
                         ? 'bg-orange-50 text-orange-900 border border-orange-200'
                         : message.type === 'success'
@@ -276,7 +348,7 @@ export const MedicalChatbot: React.FC = () => {
               {isTyping && (
                 <div className="flex items-start space-x-3">
                   <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center">
-                    <Bot className="text-blue-500" size={16} />
+                    <Bot className="text-green-500" size={16} />
                   </div>
                   <div className="bg-gray-50 p-3 rounded-lg">
                     <div className="flex space-x-1">
@@ -309,12 +381,12 @@ export const MedicalChatbot: React.FC = () => {
                   onChange={(e) => setInputText(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
                   placeholder="Ask about medical protocols, procedures, or guidelines..."
-                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={!inputText.trim()}
-                  className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  className="p-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                 >
                   <Send size={20} />
                 </button>

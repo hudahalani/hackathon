@@ -26,7 +26,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
       title: 'AI Diagnostics',
       description: 'Upload medical images for AI-assisted preliminary diagnosis',
       icon: Camera,
-      color: 'bg-blue-600',
+      color: 'bg-black', // Black for diagnostics
       stats: '95% accuracy',
       urgent: false
     },
@@ -35,7 +35,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
       title: 'AR Procedures',
       description: 'Step-by-step AR guidance for medical procedures',
       icon: Smartphone,
-      color: 'bg-teal-600',
+      color: 'bg-green-700', // Green for AR
       stats: '50+ procedures',
       urgent: false
     },
@@ -44,7 +44,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
       title: 'Medical Assistant',
       description: 'Ask questions about protocols and guidelines',
       icon: MessageCircle,
-      color: 'bg-indigo-600',
+      color: 'bg-black', // Black for chatbot
       stats: '24/7 support',
       urgent: false
     },
@@ -53,7 +53,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
       title: 'Voice Commands',
       description: 'Hands-free medical guidance and documentation',
       icon: Mic,
-      color: 'bg-purple-600',
+      color: 'bg-green-700', // Green for speech
       stats: 'Multi-language',
       urgent: false
     },
@@ -62,7 +62,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
       title: 'Emergency Protocols',
       description: 'Rapid response guides for critical situations',
       icon: AlertTriangle,
-      color: 'bg-red-600',
+      color: 'bg-red-600', // Red for emergency
       stats: 'Life-saving',
       urgent: true
     }
@@ -90,7 +90,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
               <p className="text-sm font-medium text-gray-600">Active Users</p>
               <p className="text-2xl font-bold text-gray-900">247</p>
             </div>
-            <Users className="text-blue-600" size={24} />
+            <Users className="text-green-700" size={24} />
           </div>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
@@ -99,7 +99,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
               <p className="text-sm font-medium text-gray-600">Procedures Learned</p>
               <p className="text-2xl font-bold text-gray-900">1,432</p>
             </div>
-            <BookOpen className="text-teal-600" size={24} />
+            <BookOpen className="text-black" size={24} />
           </div>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
@@ -108,7 +108,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
               <p className="text-sm font-medium text-gray-600">Diagnoses Made</p>
               <p className="text-2xl font-bold text-gray-900">856</p>
             </div>
-            <Activity className="text-indigo-600" size={24} />
+            <Activity className="text-green-700" size={24} />
           </div>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
@@ -117,7 +117,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
               <p className="text-sm font-medium text-gray-600">Avg Response Time</p>
               <p className="text-2xl font-bold text-gray-900">3.2s</p>
             </div>
-            <Clock className="text-purple-600" size={24} />
+            <Clock className="text-red-600" size={24} />
           </div>
         </div>
       </div>
@@ -146,7 +146,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
             <p className="text-gray-600 mb-4">{module.description}</p>
             <div className="flex items-center justify-between">
               <span className="text-sm text-gray-500">{module.stats}</span>
-              <span className="text-sm font-medium text-blue-600">Launch →</span>
+              <span className="text-sm font-medium text-green-600">Launch →</span>
             </div>
           </div>
         ))}
@@ -160,9 +160,9 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
             <div key={index} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-b-0">
               <div className="flex items-center space-x-3">
                 <div className={`w-2 h-2 rounded-full ${
-                  activity.type === 'emergency' ? 'bg-red-500' :
-                  activity.type === 'diagnostic' ? 'bg-blue-500' :
-                  activity.type === 'procedure' ? 'bg-teal-500' : 'bg-purple-500'
+                  activity.type === 'emergency' ? 'bg-red-600' :
+                  activity.type === 'diagnostic' ? 'bg-black' :
+                  activity.type === 'procedure' ? 'bg-green-700' : 'bg-black'
                 }`}></div>
                 <span className="text-gray-900">{activity.action}</span>
               </div>

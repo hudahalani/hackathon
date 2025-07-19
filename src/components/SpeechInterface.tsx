@@ -250,7 +250,7 @@ export const SpeechInterface: React.FC = () => {
                 <button
                   onClick={repeatResponse}
                   disabled={!response || isSpeaking}
-                  className="p-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 disabled:opacity-50 transition-colors"
+                  className="p-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 disabled:opacity-50 transition-colors"
                 >
                   <RotateCcw size={20} />
                 </button>
@@ -278,7 +278,7 @@ export const SpeechInterface: React.FC = () => {
                   className={`px-6 py-3 rounded-lg font-medium transition-colors ${
                     isListening 
                       ? 'bg-red-600 text-white hover:bg-red-700' 
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                      : 'bg-green-600 text-white hover:bg-green-700'
                   }`}
                 >
                   {isListening ? 'Stop Listening' : 'Start Voice Command'}
@@ -356,7 +356,7 @@ export const SpeechInterface: React.FC = () => {
                   onClick={() => setSelectedCategory(category.id)}
                   className={`w-full flex items-center space-x-3 p-3 rounded-lg transition-colors ${
                     selectedCategory === category.id
-                      ? 'bg-blue-100 text-blue-700'
+                      ? 'bg-green-100 text-green-700'
                       : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
                   }`}
                 >
@@ -380,7 +380,7 @@ export const SpeechInterface: React.FC = () => {
                   </div>
                   <button
                     onClick={() => processCommand(cmd.command)}
-                    className="text-xs text-blue-600 hover:text-blue-800"
+                    className="text-xs text-green-600 hover:text-green-800"
                   >
                     Try command →
                   </button>

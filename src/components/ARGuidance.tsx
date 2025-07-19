@@ -108,42 +108,74 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
     }
   };
 
-  // Perform basic medical condition analysis
+  // Perform advanced medical condition analysis
   const performMedicalAnalysis = (imageData: Uint8ClampedArray, width: number, height: number) => {
     let redPixels = 0;
     let darkPixels = 0;
+    let yellowPixels = 0;
+    let whitePixels = 0;
+    let brownPixels = 0;
+    let greenPixels = 0;
+    let bluePixels = 0;
     let totalPixels = width * height;
 
-    // Analyze pixel colors
     for (let i = 0; i < imageData.length; i += 4) {
       const r = imageData[i];
       const g = imageData[i + 1];
       const b = imageData[i + 2];
-      
-      // Count red pixels (potential inflammation/infection)
-      if (r > g * 1.5 && r > b * 1.5) {
-        redPixels++;
-      }
-      
-      // Count dark pixels (potential bruising/necrosis)
-      if (r < 100 && g < 100 && b < 100) {
-        darkPixels++;
-      }
+
+      // Red: Inflammation/infection
+      if (r > 150 && r > g * 1.3 && r > b * 1.3) redPixels++;
+      // Dark: Bruising/necrosis
+      if (r < 80 && g < 80 && b < 80) darkPixels++;
+      // Yellow: Pus/discharge
+      if (r > 180 && g > 180 && b < 100 && Math.abs(r - g) < 40) yellowPixels++;
+      // White: Fungal/necrosis
+      if (r > 200 && g > 200 && b > 200) whitePixels++;
+      // Brown: Scab/old wound
+      if (r > 90 && g > 60 && b < 50 && r > g && g > b) brownPixels++;
+      // Green: Gangrene/infection
+      if (g > 120 && r < 100 && b < 100) greenPixels++;
+      // Blue/Purple: Cyanosis/bruising
+      if (b > 120 && r < 100 && g < 100) bluePixels++;
     }
 
-    const redPercentage = (redPixels / totalPixels) * 100;
-    const darkPercentage = (darkPixels / totalPixels) * 100;
+    const percent = (n: number) => (n / totalPixels) * 100;
 
-    // Determine condition based on color analysis
-    if (redPercentage > 15) {
+    if (percent(redPixels) > 12) {
       return {
         condition: 'Inflammation or Infection',
-        treatment: 'Detected signs of inflammation or infection. Clean the area with sterile saline. Apply appropriate dressing. Monitor for worsening symptoms. Consider antibiotics if infection suspected. Seek medical attention if redness spreads or fever develops.'
+        treatment: 'Redness detected. Clean with sterile saline, apply dressing, monitor for fever or spreading. Consider antibiotics if infection suspected.'
       };
-    } else if (darkPercentage > 20) {
+    } else if (percent(yellowPixels) > 7) {
+      return {
+        condition: 'Pus or Discharge',
+        treatment: 'Yellowish area detected. Indicates pus or discharge. Clean thoroughly, consider wound culture, start antibiotics, and seek medical attention.'
+      };
+    } else if (percent(whitePixels) > 8) {
+      return {
+        condition: 'Fungal Infection or Necrosis',
+        treatment: 'White area detected. May indicate fungal infection or tissue necrosis. Keep area dry, use antifungal if indicated, and consult a specialist.'
+      };
+    } else if (percent(brownPixels) > 8) {
+      return {
+        condition: 'Scab or Old Wound',
+        treatment: 'Brown area detected. Indicates scabbing or healing wound. Keep clean and dry, avoid picking, and monitor for infection.'
+      };
+    } else if (percent(greenPixels) > 5) {
+      return {
+        condition: 'Possible Gangrene or Severe Infection',
+        treatment: 'Greenish area detected. This may indicate gangrene or severe infection. Seek urgent medical attention.'
+      };
+    } else if (percent(bluePixels) > 7) {
+      return {
+        condition: 'Cyanosis or Bruising',
+        treatment: 'Blue or purple area detected. May indicate bruising or poor oxygenation (cyanosis). Apply cold compress for bruising, and seek medical attention if cyanosis is suspected.'
+      };
+    } else if (percent(darkPixels) > 15) {
       return {
         condition: 'Bruising or Tissue Damage',
-        treatment: 'Detected potential bruising or tissue damage. Apply ice for first 24-48 hours to reduce swelling. Elevate the area if possible. Monitor for signs of compartment syndrome. Seek medical attention if severe pain or numbness develops.'
+        treatment: 'Dark area detected. Indicates bruising or tissue damage. Apply ice, elevate, and monitor for pain or numbness.'
       };
     } else {
       return {
@@ -345,7 +377,7 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
                   {!isRecording ? (
                     <button
                       onClick={startRecording}
-                      className="flex items-center space-x-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
+                      className="flex items-center space-x-2 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors"
                     >
                       <Video size={20} />
                       <span>Start Recording</span>
@@ -390,8 +422,8 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
                 
                 {/* Analysis Info */}
                 {isRecording && (
-                  <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                    <p className="text-sm text-blue-800 text-center">
+                  <div className="mt-4 p-3 bg-green-50 rounded-lg">
+                    <p className="text-sm text-green-800 text-center">
                       🔍 Camera will automatically analyze for medical conditions every 3 seconds
                     </p>
                   </div>
@@ -411,7 +443,7 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
                     key={procedure.id}
                     className={`p-4 rounded-lg border-2 cursor-pointer transition-colors ${
                       selectedProcedure === procedure.id
-                        ? 'border-blue-500 bg-blue-50'
+                        ? 'border-green-500 bg-green-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                     onClick={() => setSelectedProcedure(procedure.id)}
@@ -420,12 +452,12 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
                     <ul className="text-sm text-gray-600 space-y-1">
                       {procedure.steps.slice(0, 2).map((step, index) => (
                         <li key={index} className="flex items-start">
-                          <span className="text-blue-500 mr-2">•</span>
+                          <span className="text-green-500 mr-2">•</span>
                           {step}
                         </li>
                       ))}
                       {procedure.steps.length > 2 && (
-                        <li className="text-blue-600 text-xs">
+                        <li className="text-green-600 text-xs">
                           +{procedure.steps.length - 2} more steps
                         </li>
                       )}
@@ -435,14 +467,14 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
               </div>
 
               {selectedProcedure && (
-                <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                <div className="mt-6 p-4 bg-green-50 rounded-lg">
                   <h3 className="font-semibold text-gray-900 mb-3">
                     {procedures.find(p => p.id === selectedProcedure)?.title} - Steps
                   </h3>
                   <ol className="space-y-2">
                     {procedures.find(p => p.id === selectedProcedure)?.steps.map((step, index) => (
                       <li key={index} className="flex items-start text-sm">
-                        <span className="bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-0.5">
+                        <span className="bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs mr-3 mt-0.5">
                           {index + 1}
                         </span>
                         <span className="text-gray-700">{step}</span>

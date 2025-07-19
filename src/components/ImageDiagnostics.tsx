@@ -139,7 +139,7 @@ export const ImageDiagnostics: React.FC = () => {
                     onClick={() => setSpecialization(spec.id)}
                     className={`p-3 rounded-lg text-sm font-medium transition-colors ${
                       specialization === spec.id
-                        ? 'bg-blue-100 text-blue-700 border border-blue-300'
+                        ? 'bg-green-100 text-green-700 border border-green-300'
                         : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
                     }`}
                   >
@@ -169,7 +169,7 @@ export const ImageDiagnostics: React.FC = () => {
                     <button
                       onClick={analyzeImage}
                       disabled={isAnalyzing}
-                      className="flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+                      className="flex items-center space-x-2 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors"
                     >
                       {isAnalyzing ? (
                         <>
@@ -197,7 +197,7 @@ export const ImageDiagnostics: React.FC = () => {
                     </p>
                     <button
                       onClick={() => fileInputRef.current?.click()}
-                      className="flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mx-auto"
+                      className="flex items-center space-x-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors mx-auto"
                     >
                       <Camera size={20} />
                       <span>Choose Image</span>
@@ -266,7 +266,7 @@ export const ImageDiagnostics: React.FC = () => {
               <ul className="space-y-3">
                 {result.recommendations.map((recommendation, index) => (
                   <li key={index} className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
                     <span className="text-gray-700">{recommendation}</span>
                   </li>
                 ))}
