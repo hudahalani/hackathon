@@ -77,6 +77,34 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
+      {/* Landing Page Intro Section */}
+      <section className="mb-10 bg-gradient-to-br from-green-50 to-white rounded-2xl shadow-md border border-green-100 p-8 flex flex-col md:flex-row items-center md:space-x-10">
+        <div className="flex-shrink-0 mb-6 md:mb-0 flex flex-col items-center md:items-start">
+          <img src="/logo.png" alt="Train to Heal Logo" className="w-28 h-28 object-contain mb-2" />
+          <span className="text-lg font-bold text-green-700 tracking-wide">Train2Heal</span>
+        </div>
+        <div className="flex-1">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">🏥 Train2Heal</h1>
+          <h2 className="text-xl md:text-2xl font-semibold text-green-700 mb-4">A bilingual, AI-powered mobile platform designed for immediate, accessible learning in challenging environments.</h2>
+          <div className="mb-4">
+            <span className="font-bold text-red-600">🧨 The Problem</span>
+            <p className="text-gray-700 mt-1 mb-2">In Gaza, a shortage of trained responders and constant staff turnover delay critical first aid and trauma care. With few resources and no time for traditional training, critical first aid and trauma response are often delayed or done incorrectly, costing lives when every second counts.</p>
+            <span className="font-bold text-green-700">💡 Our Solution</span>
+            <p className="text-gray-700 mt-1">T2H bridges the gap with rapid AI diagnostics, AR-guided procedures, an offline medical chatbot, and hands-free voice commands. Built for Android and 100% offline use, T2H delivers clinical support and training that drives 70% faster skill acquisition and 90% reduction in training costs.</p>
+          </div>
+          <div className="flex flex-wrap gap-3 mb-4">
+            <a href="https://drive.google.com/file/d/1QiD0_Z8YNmtLQpQCic9O0j8XVX0Bdme1/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-red-100 text-red-700 font-semibold rounded-lg shadow hover:bg-red-200 transition">🎥 Demo Video</a>
+            <a href="https://gamma.app/docs/HACKS-FOR-GAZA-3mkomug9fh6sv7k" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-green-100 text-green-800 font-semibold rounded-lg shadow hover:bg-green-200 transition">🧾 Project Slides</a>
+            <a href="https://github.com/hudahalani/hackathon" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-gray-100 text-gray-800 font-semibold rounded-lg shadow hover:bg-gray-200 transition">🔗 GitHub Repo</a>
+          </div>
+          <div className="text-gray-600 text-sm mt-2">
+            <span className="font-semibold">👩‍💻 Team</span> <br/>
+            Built by <span className="font-bold">Tala Abdelmaguid and Huda Halani</span> using Codewords + React Native
+          </div>
+        </div>
+      </section>
+      {/* End Landing Page Intro Section */}
+
       <div className="mb-8">
         <div className="flex items-center space-x-4 mb-4">
           <img src="/logo.png" alt="Train to Heal Logo" className="w-24 h-24 object-contain" />
