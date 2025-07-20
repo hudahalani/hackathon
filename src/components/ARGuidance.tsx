@@ -117,6 +117,7 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
     let brownPixels = 0;
     let greenPixels = 0;
     let bluePixels = 0;
+    let bleedingPixels = 0; // New counter for bleeding detection
     let totalPixels = width * height;
 
     for (let i = 0; i < imageData.length; i += 4) {
@@ -124,6 +125,10 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
       const g = imageData[i + 1];
       const b = imageData[i + 2];
 
+      // Enhanced bleeding detection - much more sensitive
+      if (r > 120 && r > g * 1.2 && r > b * 1.2) {
+        bleedingPixels++;
+      }
       // Red: Inflammation/infection
       if (r > 150 && r > g * 1.3 && r > b * 1.3) redPixels++;
       // Dark: Bruising/necrosis
@@ -142,7 +147,13 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
 
     const percent = (n: number) => (n / totalPixels) * 100;
 
-    if (percent(redPixels) > 12) {
+    // Always detect bleeding first (very sensitive)
+    if (percent(bleedingPixels) > 2) {
+      return {
+        condition: 'Bleeding Detected',
+        treatment: '⚠️ BLEEDING DETECTED! Apply direct pressure with sterile gauze, elevate if possible, and seek immediate medical attention. Monitor for signs of shock.'
+      };
+    } else if (percent(redPixels) > 12) {
       return {
         condition: 'Inflammation or Infection',
         treatment: 'Redness detected. Clean with sterile saline, apply dressing, monitor for fever or spreading. Consider antibiotics if infection suspected.'
@@ -151,11 +162,6 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
       return {
         condition: 'Pus or Discharge',
         treatment: 'Yellowish area detected. Indicates pus or discharge. Clean thoroughly, consider wound culture, start antibiotics, and seek medical attention.'
-      };
-    } else if (percent(whitePixels) > 8) {
-      return {
-        condition: 'Fungal Infection or Necrosis',
-        treatment: 'White area detected. May indicate fungal infection or tissue necrosis. Keep area dry, use antifungal if indicated, and consult a specialist.'
       };
     } else if (percent(brownPixels) > 8) {
       return {
@@ -348,10 +354,23 @@ export const ARGuidance = ({ }: ARGuidanceProps) => {
 
                 {/* Detected Condition */}
                 {detectedCondition && (
-                  <div className="absolute bottom-4 left-4 right-4 bg-red-600 bg-opacity-90 text-white p-4 rounded-lg">
+                  <div className={`absolute bottom-4 left-4 right-4 text-white p-4 rounded-lg ${
+                    detectedCondition === 'Bleeding Detected' 
+                      ? 'bg-red-800 bg-opacity-95 animate-pulse border-2 border-red-400' 
+                      : 'bg-red-600 bg-opacity-90'
+                  }`}>
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
-                        <h3 className="font-semibold mb-2">⚠️ Detected: {detectedCondition}</h3>
+                        <h3 className={`font-bold mb-2 ${
+                          detectedCondition === 'Bleeding Detected' 
+                            ? 'text-xl' 
+                            : 'font-semibold'
+                        }`}>
+                          {detectedCondition === 'Bleeding Detected' 
+                            ? '🚨 BLEEDING DETECTED! 🚨' 
+                            : `⚠️ Detected: ${detectedCondition}`
+                          }
+                        </h3>
                         <p className="text-sm">{analysisResult}</p>
                         {isSpeaking && (
                           <div className="flex items-center mt-2">

@@ -13,7 +13,7 @@ export const MedicalChatbot: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hello! I'm your medical assistant. I can help you with clinical protocols, drug interactions, emergency procedures, and humanitarian guidelines. How can I assist you today?",
+      text: "Hello! I'm your medical assistant. I can help you with clinical protocols, drug interactions, emergency procedures, and medical guidelines. How can I assist you today?",
       sender: 'bot',
       timestamp: new Date(),
       type: 'info'
@@ -41,8 +41,8 @@ export const MedicalChatbot: React.FC = () => {
       response: "**Emergency Response Protocol:**\n\n**Code Blue (Cardiac Arrest):**\n1. Call for help immediately\n2. Start CPR (30:2 ratio)\n3. Attach defibrillator\n4. Follow ACLS algorithm\n\n**Code Red (Fire):**\n1. Rescue patients in immediate danger\n2. Activate alarm\n3. Contain fire if safe\n4. Evacuate if necessary\n\n**Mass Casualty:**\n1. Activate incident command\n2. Triage patients (START method)\n3. Establish treatment areas\n4. Coordinate with emergency services\n\n**Communication:** Use designated emergency frequencies and report to incident commander.",
       type: 'warning'
     },
-    'humanitarian guidelines': {
-      response: "**Humanitarian Medical Guidelines:**\n\n**Core Principles:**\n- Humanity: Alleviate suffering\n- Neutrality: No sides in conflicts\n- Impartiality: Based on need alone\n- Independence: Autonomous action\n\n**Medical Priorities:**\n1. Life-threatening conditions\n2. Preventable diseases\n3. Communicable disease control\n4. Reproductive health\n5. Mental health support\n\n**Resource Management:**\n- Prioritize essential medicines\n- Maintain cold chain for vaccines\n- Ensure safe water and sanitation\n- Document all activities\n\n**Security Protocols:**\n- Daily security briefings\n- Evacuation procedures\n- Communication schedules\n- Personal protective measures",
+    'medical guidelines': {
+      response: "**Medical Guidelines:**\n\n**Core Principles:**\n- Humanity: Alleviate suffering\n- Neutrality: No sides in conflicts\n- Impartiality: Based on need alone\n- Independence: Autonomous action\n\n**Key Areas:**\n1. **Emergency Response:**\n   - Rapid assessment protocols\n   - Triage systems\n   - Resource allocation\n\n2. **Patient Care:**\n   - Standard treatment protocols\n   - Infection control measures\n   - Pain management\n\n3. **Safety:**\n   - Personal protective equipment\n   - Decontamination procedures\n   - Security protocols\n\n4. **Documentation:**\n   - Patient records\n   - Incident reporting\n   - Data protection\n\n**Remember:** Always prioritize patient safety and follow evidence-based practices.",
       type: 'info'
     },
     'diabetes': {
@@ -92,7 +92,7 @@ export const MedicalChatbot: React.FC = () => {
     { label: 'Drug Interactions', query: 'drug interaction' },
     { label: 'Wound Care', query: 'wound care' },
     { label: 'Chest Pain', query: 'chest pain' },
-    { label: 'Humanitarian Guidelines', query: 'humanitarian guidelines' }
+    { label: 'Medical Guidelines', query: 'medical guidelines' }
   ];
 
   const scrollToBottom = () => {
@@ -421,7 +421,7 @@ export const MedicalChatbot: React.FC = () => {
               <div>• Wound care</div>
               <div>• Infection control</div>
               <div>• Pain management</div>
-              <div>• Humanitarian guidelines</div>
+              <div>• Medical guidelines</div>
               <div>• Medical documentation</div>
             </div>
           </div>
