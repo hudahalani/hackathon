@@ -78,8 +78,13 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <div className="mb-8">
-        <h2 className="text-3xl font-bold text-gray-900 mb-2">{t('welcome')}</h2>
-        <p className="text-gray-600">{t('dashboard_desc')}</p>
+        <div className="flex items-center space-x-4 mb-4">
+          <img src="/logo.png" alt="Train to Heal Logo" className="w-24 h-24 object-contain" />
+          <div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">{t('welcome')}</h2>
+            <p className="text-gray-600">{t('dashboard_desc')}</p>
+          </div>
+        </div>
       </div>
 
       {/* Quick Stats */}

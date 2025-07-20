@@ -42,7 +42,7 @@ export const Navigation: React.FC<NavigationProps> = ({
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center space-x-2">
             <img src="/logo.png" alt="Train to Heal Logo" className="w-12 h-12 object-contain" />
-            <h1 className="text-xl font-bold text-gray-900">Train to Heal</h1>
+            <h1 className="text-xl font-bold text-gray-900">T2H</h1>
           </div>
           
           <div className="flex items-center space-x-1">
