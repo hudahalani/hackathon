@@ -80,26 +80,40 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
       {/* Landing Page Intro Section */}
       <section className="mb-10 bg-gradient-to-br from-green-50 to-white rounded-2xl shadow-md border border-green-100 p-8 flex flex-col md:flex-row items-center md:space-x-10">
         <div className="flex-shrink-0 mb-6 md:mb-0 flex flex-col items-center md:items-start">
-          <img src="/logo.png" alt="Train to Heal Logo" className="w-28 h-28 object-contain mb-2" />
+          <img src="/logo.png" alt="Train2Heal Logo" className="w-28 h-28 object-contain mb-2" />
           <span className="text-lg font-bold text-green-700 tracking-wide">Train2Heal</span>
         </div>
         <div className="flex-1">
           <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">🏥 Train2Heal</h1>
-          <h2 className="text-xl md:text-2xl font-semibold text-green-700 mb-4">A bilingual, AI-powered mobile platform designed for immediate, accessible learning in challenging environments.</h2>
+          <h2 className="text-xl md:text-2xl font-semibold text-green-700 mb-4">A bilingual, AI-first mobile platform for emergency training and support, even with no internet.</h2>
           <div className="mb-4">
             <span className="font-bold text-red-600">🧨 The Problem</span>
-            <p className="text-gray-700 mt-1 mb-2">In Gaza, a shortage of trained responders and constant staff turnover delay critical first aid and trauma care. With few resources and no time for traditional training, critical first aid and trauma response are often delayed or done incorrectly, costing lives when every second counts.</p>
+            <p className="text-gray-700 mt-1 mb-2">In Gaza, ongoing conflict and staff turnover leave civilians without adequate emergency medical care. Traditional training is too slow and resource-heavy for field conditions. First aid and trauma response are often delayed or done incorrectly, costing lives.</p>
             <span className="font-bold text-green-700">💡 Our Solution</span>
-            <p className="text-gray-700 mt-1">T2H bridges the gap with rapid AI diagnostics, AR-guided procedures, an offline medical chatbot, and hands-free voice commands. Built for Android and 100% offline use, T2H delivers clinical support and training that drives 70% faster skill acquisition and 90% reduction in training costs.</p>
+            <div className="text-gray-700 mt-1 space-y-1">
+              <p><span className="font-bold">Train2Heal</span> bridges the gap with fast, offline, and accessible clinical support:</p>
+              <ul className="list-none pl-0 mt-2 space-y-1">
+                <li>🧠 <span className="font-semibold">AI-Assisted Diagnosis</span> – Upload an image for rapid wound assessment</li>
+                <li>🧤 <span className="font-semibold">AR-Guided Procedures</span> – Step-by-step visual aid for critical tasks</li>
+                <li>🗣️ <span className="font-semibold">Voice Commands</span> – Hands-free for chaotic environments</li>
+                <li>🤖 <span className="font-semibold">Offline Chatbot</span> – Access medical info and training without Wi-Fi</li>
+                <li>📲 <span className="font-semibold">Built for Android</span> – Lightweight, fast, and field-ready</li>
+                <li>🚀 <span className="font-semibold">Proven to reduce training time by 70% and cut costs by 90%</span></li>
+              </ul>
+            </div>
           </div>
           <div className="flex flex-wrap gap-3 mb-4">
             <a href="https://drive.google.com/file/d/1QiD0_Z8YNmtLQpQCic9O0j8XVX0Bdme1/view?usp=drive_link" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-red-100 text-red-700 font-semibold rounded-lg shadow hover:bg-red-200 transition">🎥 Demo Video</a>
             <a href="https://gamma.app/docs/HACKS-FOR-GAZA-3mkomug9fh6sv7k" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-green-100 text-green-800 font-semibold rounded-lg shadow hover:bg-green-200 transition">🧾 Project Slides</a>
             <a href="https://github.com/hudahalani/hackathon" target="_blank" rel="noopener noreferrer" className="inline-block px-4 py-2 bg-gray-100 text-gray-800 font-semibold rounded-lg shadow hover:bg-gray-200 transition">🔗 GitHub Repo</a>
           </div>
-          <div className="text-gray-600 text-sm mt-2">
-            <span className="font-semibold">👩‍💻 Team</span> <br/>
+          <div className="text-gray-600 mt-2">
+            <span className="font-bold text-black text-lg">👩‍💻 Team</span> <br/>
             Built by <span className="font-bold">Tala Abdelmaguid and Huda Halani</span> using Codewords + React Native
+            <div className="mt-1 flex flex-col sm:flex-row sm:space-x-4 text-sm">
+              <a href="https://www.linkedin.com/in/tala-abdelmaguid-1250ba204/" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">Tala Abdelmaguid (LinkedIn)</a>
+              <a href="https://www.linkedin.com/in/hudahalani/" target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">Huda Halani (LinkedIn)</a>
+            </div>
           </div>
         </div>
       </section>
@@ -107,7 +121,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ onModuleSelect }) => {
 
       <div className="mb-8">
         <div className="flex items-center space-x-4 mb-4">
-          <img src="/logo.png" alt="Train to Heal Logo" className="w-24 h-24 object-contain" />
+          <img src="/logo.png" alt="Train2Heal Logo" className="w-24 h-24 object-contain" />
           <div>
             <h2 className="text-3xl font-bold text-gray-900 mb-2">{t('welcome')}</h2>
             <p className="text-gray-600">{t('dashboard_desc')}</p>
